@@ -1,0 +1,96 @@
+# Conky Google Now style #
+
+# Conky settings #
+background no
+update_interval 1
+double_buffer yes
+no_buffers yes
+
+# Window specifications #
+own_window yes
+own_window_type conky
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_title 
+#own_window_colour FFFFFF
+#own_window_colour e5e5e5
+
+minimum_size 250 0
+maximum_width 250
+# Alignment #
+alignment tr
+gap_x 10
+gap_y 10
+
+#border_width 5
+border_inner_margin 10
+#border_outer_margin 10
+
+# Graphics settings #
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+
+# Text settings #
+use_xft yes
+xftalpha 0
+xftfont Open Sans Light:size=10
+
+override_utf8_locale yes
+
+use_spacer none
+short_units yes
+pad_percents 2
+imlib_cache_size 0
+
+
+# Color scheme #
+default_color 666666
+
+color1 0099CC
+color2 9933CC
+color3 669900
+color4 FF8800
+color5 CC0000
+color6 AAAAAA
+color7 DDDDDD
+
+TEXT
+${image ~/.config/conky/conky_google_now/now.png -p 0,0 -s 250x88}${voffset 6}${font Open Sans Light:pixelsize=20}${alignc}${time %A %d %B %Y}
+${voffset -4}${font Open Sans Light:pixelsize=40}${alignc}${time %H:%M}${font}
+${color7}${hr}${color}${execi 300 ~/.config/conky/conky_google_now/forecasts.sh}
+${image ~/.config/conky/conky_google_now/now.png -p -0,94 -s 250x182}${voffset 7}${offset 10}${font Open Sans Light:size=16}${execi 300 cut -d: -f1 ~/.cache/forecasts}${font}
+${font Open Sans Light:size=45}${alignr 7}${execi 300 cut -d: -f2 ~/.cache/forecasts}°${font}
+${image ~/.cache/weather.png -p 10,140 -s 60x60}
+${voffset -15}${alignr 40}${color6}${execi 300 cut -d: -f4 ~/.cache/forecasts} ${execi 300 cut -d: -f5 ~/.cache/forecasts}${color}
+${voffset -15}${offset 10}${execi 300 cut -d: -f3 ~/.cache/forecasts}${color}
+${image ~/.cache/weather-today.png -p 10,237 -s 30x30}${image ~/.cache/weather-tomorrow.png -p 160,237 -s 30x30}
+${voffset -5}${goto 60}${execi 300 cut -d: -f6 ~/.cache/forecasts}${goto 210}${execi 300 cut -d: -f7 ~/.cache/forecasts}
+${goto 60}${execi 300 cut -d: -f8 ~/.cache/forecasts}° ${color6}${execi 300 cut -d: -f9 ~/.cache/forecasts}°${color}${goto 210}${execi 300 cut -d: -f10 ~/.cache/forecasts}° ${color6}${execi 300 cut -d: -f11 ~/.cache/forecasts}°
+${voffset -3}${color7}${hr}${color}
+${image ~/.config/conky/conky_google_now/now.png -p -0,282 -s 250x82}${voffset 5}${offset 7}${color1}CPU0${color}${color3} ${cpu cpu0}%${color}${alignr 7}${color1}CPU1${color} ${color3}${cpu cpu1}%${color}
+${offset 7}${color1}Temp: ${color}${color2}${execpi 100 sensors | grep 'Core' | cut -c16-21}${color}${alignr 7}${color1}Temp: ${color}${color2}${execpi 100 sensors | grep 'temp1' | cut -c16-21}${color}
+${offset 7}${color1}RAM:${color}${color3} $memperc% ${color}${alignr 7}${color1}SWAP:${color}${color3} $swapperc%${color}
+${offset 7}${color1}Uptime:${color} ${alignr 7}${color2}${uptime}${color}
+${voffset -7}${color7}${hr}${color}
+${image ~/.config/conky/conky_google_now/now.png -p -0,371 -s 250x82}${voffset 3}${offset 7}${color1}Processi ${goto 123}CPU%${goto 214}MEM%${color}
+${offset 7}${color1}${top name 1}${color}${goto 123}${color3}${top cpu 1} ${color}${goto 214}${color2}${top mem 1}${color}
+${offset 7}${color1}${top name 2}${color}${goto 123}${color3}${top cpu 2} ${color}${goto 214}${color2}${top mem 2}${color}
+${offset 7}${color1}${top name 3}${color}${goto 123}${color3}${top cpu 3} ${color}${goto 214}${color2}${top mem 3}${color}
+#${offset 4}${color1}${top name 4}${color}${goto 125}${color3}${top cpu 4} ${color}${goto 205}${color2}${top mem 4}${color}
+#${offset 4}${color1}${top name 5}${color}${goto 125}${color3}${top cpu 5} ${color}${goto 205}${color2}${top mem 5}${color}
+${voffset -5}${color7}${hr}${color}
+${image ~/.config/conky/conky_google_now/now.png -p -0,460 -s 250x44}${if_existing /proc/net/route wlp2s0}
+${voffset -14}${offset 7}${color1}Up:${color} ${color3}${upspeed wlp2s0}${color}${alignr 7}${color1}Down:${color} ${color3}${downspeed wlp2s0}${color}
+${offset 7}${color1}Sent:${color} ${color2}${totalup wlp2s0}${color}${alignr 4}${color1}Received:${color} ${color2}${totaldown wlp2s0}${color}
+${else}${if_existing /proc/net/route eth0}
+${voffset -14}${offset 4}${color1}Up:${color} ${color3}${upspeed eth0}${color}${alignr 4}${color1}Down:${color} ${color3}${downspeed eth0}${color}
+${offset 4}${upspeedgraph eth0 50,120 FF8800 FF8800}${alignr 4}${downspeedgraph eth0 50,120 FF8800 FF8800}
+${offset 4}${color1}Sent:${color} ${color2}${totalup eth0}${color}${alignr 4}${color1}Received:${color} ${color2}${totaldown eth0}${color}
+${else}
+Network disconnected
+${color6}Connect to a network to see statistics${color}
+${voffset 50}
+${endif}${endif}${voffset -17}
+${color6}${font Open Sans Light:pixelsize=10}${alignr}Last update at ${execi 300 cut -d: -f12,13 ~/.cache/forecasts}

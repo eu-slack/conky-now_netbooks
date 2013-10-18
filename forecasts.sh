@@ -1,7 +1,17 @@
 #!/bin/bash
 
-WOEID=123456
-ICONSPATH="./weathericons"
+MINPAR=1
+
+if [ $# -lt "$MINPAR" ]
+then
+  notify-send "$(echo -e "This script needs the WOEID number of your location as a parameter!\n" \
+  "\nHow to find your WOEID:\n1 - Go to http://weather.yahoo.com\n2 - Search for your city" \
+  "\n3 - Pick the 6-digit number in the URL of the forecast page\n")"
+  exit 1
+fi
+
+WOEID=$1
+ICONSPATH="$HOME/.config/conky/conky_google_now/weathericons"
 
 curl -s "http://weather.yahooapis.com/forecastrss?w=$WOEID&u=c" -o ~/.cache/weather.xml
 
@@ -29,3 +39,4 @@ cp -f $ICONSPATH/$CODE.png ~/.cache/weather.png
 
 notify-send -i ~/.cache/weather.png  "$(echo -e " $CITY\n\t $TEMP° - $COND")"
 echo $FORECASTS > ~/.cache/forecasts
+exit 0

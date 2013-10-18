@@ -1,4 +1,9 @@
-# Conky Google Now style #
+# # # # # # # # # # # # # #
+#                          #
+#  Conky Google Now style  #
+#  Optimized for Netbooks  #
+#                          #
+# # # # # # # # # # # # # #
 
 # Conky settings #
 background no
@@ -59,7 +64,7 @@ color7 DDDDDD
 TEXT
 ${image ~/.config/conky/conky_google_now/now.png -p 0,0 -s 250x88}${voffset 6}${font Open Sans Light:pixelsize=20}${alignc}${time %A %d %B %Y}
 ${voffset -4}${font Open Sans Light:pixelsize=40}${alignc}${time %H:%M}${font}
-${color7}${hr}${color}${execi 300 ~/.config/conky/conky_google_now/forecasts.sh}
+${color7}${hr}${color}${execi 300 ~/.config/conky/conky_google_now/forecasts.sh 123456}
 ${image ~/.config/conky/conky_google_now/now.png -p -0,94 -s 250x182}${voffset 7}${offset 10}${font Open Sans Light:size=16}${execi 300 cut -d: -f1 ~/.cache/forecasts}${font}
 ${font Open Sans Light:size=45}${alignr 7}${execi 300 cut -d: -f2 ~/.cache/forecasts}°${font}
 ${image ~/.cache/weather.png -p 10,140 -s 60x60}

@@ -1,8 +1,9 @@
 #!/bin/bash
 
 MINPAR=1
+MINWID=6
 
-if [ $# -lt "$MINPAR" ]
+if [[ $# -lt "$MINPAR" || ${#1} -lt "$MINWID" ]]
 then
   notify-send "$(echo -e "This script needs the WOEID number of your location as a parameter!\n" \
   "\nHow to find your WOEID:\n1 - Go to http://weather.yahoo.com\n2 - Search for your city" \

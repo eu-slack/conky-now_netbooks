@@ -1,8 +1,9 @@
 #!/bin/bash
 
-ICONSPATH="$HOME/.config/conky/conky_google_now/weathericons"
+WOEID=123456
+ICONSPATH="./weathericons"
 
-curl -s "http://weather.yahooapis.com/forecastrss?w=724188&u=c" -o ~/.cache/weather.xml
+curl -s "http://weather.yahooapis.com/forecastrss?w=$WOEID&u=c" -o ~/.cache/weather.xml
 
 CITY=$(grep "yweather:location" ~/.cache/weather.xml | cut -d \" -f 2)
 UPDATED=$(grep "yweather:condition" ~/.cache/weather.xml | cut -d \" -f 8 | cut -d " " -f5,6)
